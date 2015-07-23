@@ -1,0 +1,32 @@
+# 2.2 #
+
+  * Change layout of the chroot.  **THIS REQUIRES USER INTERVENTION.**  It's safer on some systems to have the chroot root directory be unwritable by the chrooted user.  Please refer to [UPGRADING](https://code.google.com/p/ndyndns/wiki/Upgrading) for instructions (including an easy-to-modify shell script recipe).
+  * Support Hurricane Electric dynamic DNS and IPv6 tunnel updates.
+  * Fix a bug that prevented Namecheap DDNS entries that included a subdomain from being updated.
+  * Call gethostbyname() before going into the chroot to force libcs to load any dependent sublibraries while those libraries are accessible.  This change should make it much easier to create and maintain a suitable chroot environment.
+  * Don't kill the daemon on cURL errors.  It's disruptive now that multiple services can be updated from a single daemon.
+  * Allow HTTP authentication methods other than plaintext.  These are all irrelevant when SSL is used (which is necessary for real security), but there's no real reason to disallow other methods.
+  * Disable cURL protocols other than HTTP or HTTPS.
+  * Use POSIX clock\_gettime(CLOCK\_MONOTONIC) rather than time().
+  * Use nanosleep() instead of sleep().
+  * Lots of cosmetic reorganization and cleanups for maintainability.
+  * Change license to 2-clause BSD.
+
+# 2.1 #
+
+  * Fix a bug in the configuration file parser that could lead to the data structures not being filled correctly in some configurations.
+  * Pedantic corrections to more strictly comply with the C standard.
+
+
+# 2.0 #
+
+  * Change configuration file format.  **THIS BREAKS BACKWARDS COMPATIBILITY**, although it is not difficult at all to convert existing configurations.  See the packaged UPGRADING file for more information.  In short: add a `[dyndns]` line to the top of your configuration file, and `%s/^hostname=/hosts=/g` (change all `hostname=` lines to `hosts=`).
+  * Add support for Namecheap DNS service.
+  * Allow most options previously requiring command line switches to be specified in the configuration file.
+  * Be much more flexible about whitespace in the configuration file.
+
+# 1.16 #
+
+  * Support parsing of configuration files passed in through standard input.
+  * Parse configuration files before forking into the background as a daemon.
+  * Change license to GPL3.

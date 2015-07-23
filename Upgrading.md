@@ -1,0 +1,26 @@
+# 2.2 #
+
+If you are upgrading from a version before 2.2, then it will be necessary to update your chroot directory.  The following assumes your ndyndns daemon runs as user:group ndyndns:ndyndns.
+```
+chown root.root $CHROOTDIR
+chmod 755 $CHROOTDIR
+mkdir $CHROOTDIR/var
+chown ndyndns.ndyndns $CHROOTDIR/var
+chmod 700 $CHROOTDIR/var
+mv $CHROOTDIR/*-dns* $CHROOTDIR/var
+```
+In other words, move the dns state files to a new directory $CHROOTDIR/var. Change permissions on the $CHROOTDIR to be owned by root, and read-executable for the ndyndns user and group.  Make $CHROOTDIR/var owned by ndyndns user and group, and allow only the ndyndns user and group to read, write, and execute to that directory and the files within it.
+
+It's possibly more secure to have the root directory of the chroot be owned by root, hence the change.
+
+# 2.0 #
+
+If you are upgrading from ndyndns 1.x to 2.x, then it will be necessary to update your configuration file.
+
+At the minimum, add a line to the top of your config file:
+```
+[dyndns]
+```
+Then, replace any "hostname=" lines with "hosts=".
+
+That is sufficient for a minimal conversion.  The new format is quite a bit more flexible, and may allow you to no longer rely on command line switches if you so wish; I encourage you to read the documentation to see the new changes.
